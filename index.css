@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+}
+/* 
+.scroll-box {
+  height: 100vw;
+} */
+
+#opening-half-left,
+#opening-half-right {
+  width: 50vw;
+  height: 100vh;
+  position: fixed;
+}
+
+#opening-half-left {
+  left: 0;
+  background: #2e3440;
+  z-index: 2;
+}
+#opening-half-right {
+  right: 0;
+  background: #eceff4;
+}
+
+#cards-container {
+  flex-direction: row;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+#commercial-apps,
+#personal-apps,
+#acheivements {
+  flex-grow: 1;
+  margin: 25px;
+  margin-top: 10vh;
+  height: 75vh;
+  background: #eceff4;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px black;
+}
+
+.inactive {
+  display: none;
+}
+
+.active {
+  display: flex;
+}
+
+#employment-container {
+  width: 100vw;
+  bottom: 0;
+  position: fixed;
+  z-index: 4;
+  background: #eceff4;
+}
+
+#contact-container {
+  width: 100vw;
+  bottom: 0;
+  position: fixed;
+  z-index: 5;
+  background: #a3bf8d;
+}
