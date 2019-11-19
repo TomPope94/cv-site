@@ -1,46 +1,49 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
-import anime from "animejs";
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
+import anime from 'animejs';
 
-import { PROJECTS } from "../constants/routes";
+import { PROJECTS } from '../constants/routes';
 
 const styles = {
   pageContainer: {
-    display: "flex",
-    flexDirection: "row",
-    height: "100vh",
-    width: "100vw"
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100vh',
+    width: '100vw'
   },
   splitLeft: {
     flexGrow: 1,
-    background: "#2e3440"
+    background: '#2e3440'
   },
   splitRight: {
     flexGrow: 1,
-    background: "#eceff4"
+    background: '#eceff4'
   }
 };
 
 function Welcome() {
   const [toRedirect, setRedirect] = useState(false);
 
-  const animateTransition = () => {
-    const tl = anime.timeline({
-      autoplay: true,
-      easing: "cubicBezier(.5, .05, .1, .3)"
-    });
+  useEffect(() => {
+    animateTransition(true);
+  }, []);
 
-    tl.add({
-      targets: ".splitLeft",
-      width: ["0", "100vw"],
-      duration: 500
+  const animateTransition = open => {
+    const animationDirection = open ? 'reverse' : 'normal';
+
+    anime({
+      targets: '.splitLeft',
+      easing: 'cubicBezier(.5, .05, .1, .3)',
+      width: ['0', '100vw'],
+      duration: 500,
+      direction: animationDirection
     });
   };
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
   const handleClick = async () => {
     animateTransition();
-    await delay(500);
+    await delay(750);
     setRedirect(true);
   };
 
