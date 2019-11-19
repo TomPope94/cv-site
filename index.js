@@ -1,59 +1,72 @@
-// The logic for the window width & height range only works when the window is wider
-// than it is tall... come up with a better logic!
-
 const width = window.innerWidth;
 const height = window.innerHeight;
+const scrollHeight = height * 10; // Arbitrary number but can be changed depending on how much scrolling you want
+
+document.getElementById("scroll-box").style.height = `${scrollHeight}px`;
 
 const topBox = document.getElementById("opening-half-left");
 const cardsContainer = document.getElementById("cards-container");
 const employmentContainer = document.getElementById("employment-container");
 const contactContainer = document.getElementById("contact-container");
 
-const scrollBoxes = document.getElementsByClassName("scroll-box");
-for (let i = 0; i < scrollBoxes.length; i++) {
-  scrollBoxes[i].style.height = `${width}px`;
-}
+const changeFirstView = scrollPerc => {
+  const percComplete = scrollPerc * 2; // Multiplied by two because the box starts at 50% width
+  const widthToAdd = width * percComplete;
 
-const topBoxScroll = scrollPos => {
-  if (scrollPos > width / 2 && scrollPos <= width) {
-    topBox.style.width = `${scrollPos}px`;
-  }
-  if (scrollPos > width) {
-    topBox.style.width = `${width}px`;
-    cardsContainer.className = "active";
-  }
-  if (scrollPos <= width) {
-    cardsContainer.className = "inactive";
-  }
-  if (scrollPos <= width / 2) {
-    topBox.style.width = `${width / 2}px`;
-  }
+  topBox.style.width = `${width / 2 + widthToAdd}px`;
+  cardsContainer.className = "inactive";
+};
 
-  if (scrollPos <= width * 2) {
-    employmentContainer.style.height = 0;
-  }
+const changeSecondView = () => {
+  // Reason this is separate from the changeFirstView is because if the scroll moves too quickly it won't fire
+  topBox.style.width = `${width}px`;
+  // Create animation for bringing in the cards
+  cardsContainer.className = "active";
+  employmentContainer.style.height = 0;
+};
 
-  // find what % through the width section you are and then translate that into height
-  if (scrollPos > width * 2 && scrollPos <= width * 3) {
-    const empHeightPerc = (scrollPos - width * 2) / width;
-    console.log(empHeightPerc);
-    employmentContainer.style.height = `${empHeightPerc * height}px`;
-  }
+const changeThirdView = scrollPerc => {
+  contactContainer.style.height = 0;
+  const percComplete = (scrollPerc - 0.5) * 4;
+  const proportionalHeight = height * percComplete;
 
-  if (scrollPos <= width * 3) {
-    contactContainer.style.height = 0;
-  }
-  if (scrollPos > width * 3) {
-    employmentContainer.style.height = `${height}px`;
-    const conHeightPerc = (scrollPos - width * 3) / width;
-    contactContainer.style.height = `${conHeightPerc * height}px`;
-  }
+  employmentContainer.style.height = `${proportionalHeight}px`;
+};
+
+const changeFourthView = scrollPerc => {
+  employmentContainer.style.height = `${height}px`;
+  const percComplete = (scrollPerc - 0.75) * 4;
+  const proportionalHeight = height * percComplete;
+
+  contactContainer.style.height = `${proportionalHeight}px`;
+};
+
+const getScrollPercent = () => {
+  const h = document.documentElement,
+    b = document.body,
+    st = "scrollTop",
+    sh = "scrollHeight";
+  return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
 };
 
 window.addEventListener(
   "scroll",
   () => {
-    topBoxScroll(window.pageYOffset);
+    // need a way of finding how far through the page we've scrolled...
+    const scrollPerc = getScrollPercent();
+
+    if (scrollPerc <= 1 / 4) {
+      changeFirstView(scrollPerc);
+    }
+    if (scrollPerc > 1 / 4 && scrollPerc <= 2 / 4) {
+      changeSecondView();
+    }
+    if (scrollPerc > 2 / 4 && scrollPerc <= 3 / 4) {
+      changeThirdView(scrollPerc);
+    }
+    if (scrollPerc > 3 / 4) {
+      changeFourthView(scrollPerc);
+    }
   },
   false
 );
