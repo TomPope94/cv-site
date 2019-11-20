@@ -3,7 +3,12 @@ import { Redirect, Link } from 'react-router-dom';
 import anime from 'animejs';
 
 import { WELCOME, EXPERIENCE, COMMERCIALPROJECTS } from '../constants/routes';
-import Commercial from './cards/Commercial';
+import CommercialBack from './cards/CommercialBack';
+import CommercialFront from './cards/CommercialFront';
+import PersonalBack from './cards/PersonalBack';
+import PersonalFront from './cards/PersonalFront';
+import AchieveBack from './cards/AchieveBack';
+import AchieveFront from './cards/AchieveFront';
 import FlipCard from './cards/FlipCard';
 import CardSlider from './cards/CardSlider';
 
@@ -82,18 +87,18 @@ const ProjectCards = () => {
     <Fragment>
       <FlipCard
         className="projectCard"
-        cardBack={Commercial}
-        cardFront="Commercial"
+        cardBack={CommercialBack}
+        cardFront={CommercialFront}
       />
       <FlipCard
         className="projectCard"
-        cardBack={Commercial}
-        cardFront="Personal"
+        cardBack={PersonalBack}
+        cardFront={PersonalFront}
       />
       <FlipCard
         className="projectCard"
-        cardBack={Commercial}
-        cardFront="Acheivements"
+        cardBack={AchieveBack}
+        cardFront={AchieveFront}
       />
     </Fragment>
   );
