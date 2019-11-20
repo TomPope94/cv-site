@@ -33,9 +33,9 @@ function Welcome() {
 
     anime({
       targets: '.splitLeft',
-      easing: 'cubicBezier(.5, .05, .1, .3)',
+      easing: 'easeInElastic(1, 5)',
       width: ['0', '100vw'],
-      duration: 500,
+      duration: 750,
       direction: animationDirection
     });
   };

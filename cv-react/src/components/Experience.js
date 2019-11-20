@@ -43,7 +43,7 @@ const Experience = () => {
       targets: '.animationContainer',
       scaleY: [1, 0],
       duration: 750,
-      easing: 'cubicBezier(.5, .05, .1, .3)',
+      easing: 'easeInElastic(1, 5)',
       direction: animationDirection
     });
   };
