@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import anime from 'animejs';
 
 import { PROJECTS, CONTACT } from '../constants/routes';
+import ExperienceSlider from './experiences/ExperienceSlider';
 
 const styles = {
   pageContainer: {
@@ -62,7 +63,8 @@ const Experience = () => {
       <Fragment>
         <div style={styles.animationContainer} className="animationContainer" />
         <div style={styles.pageContainer}>
-          <button
+          <ExperienceSlider />
+          {/* <button
             style={styles.buttons}
             onClick={() => handleClick('/projects')}
           >
@@ -73,7 +75,7 @@ const Experience = () => {
             onClick={() => handleClick('/contact')}
           >
             Next
-          </button>
+          </button> */}
         </div>
       </Fragment>
     );

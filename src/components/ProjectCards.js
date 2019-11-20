@@ -1,35 +1,35 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Redirect, Link } from "react-router-dom";
-import anime from "animejs";
+import React, { Fragment, useEffect, useState } from 'react';
+import { Redirect, Link } from 'react-router-dom';
+import anime from 'animejs';
 
-import { WELCOME, EXPERIENCE, COMMERCIALPROJECTS } from "../constants/routes";
-import Commercial from "./cards/Commercial";
-import FlipCard from "./cards/FlipCard";
-import CardSlider from "./cards/CardSlider";
+import { WELCOME, EXPERIENCE, COMMERCIALPROJECTS } from '../constants/routes';
+import Commercial from './cards/Commercial';
+import FlipCard from './cards/FlipCard';
+import CardSlider from './cards/CardSlider';
 
 const styles = {
   pageContainer: {
-    height: "100vh",
-    width: "100vw",
-    background: "#2e3440"
+    height: '100vh',
+    width: '100vw',
+    background: '#2e3440'
   },
   contentsContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   cardsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    width: "100%",
-    height: "75vh"
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    height: '75vh'
   }
 };
 
 const ProjectCards = () => {
   const [toRedirect, setRedirect] = useState({
-    destination: ""
+    destination: ''
   });
   const { destination } = toRedirect;
 
@@ -53,18 +53,18 @@ const ProjectCards = () => {
       });
     }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return _ => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   });
 
   const cardsAnimation = open => {
-    const animationDirection = open ? "normal" : "reverse";
+    const animationDirection = open ? 'normal' : 'reverse';
 
     anime({
-      targets: ".projectCard",
+      targets: '.projectCard',
       scaleY: [0, 1],
       direction: animationDirection,
       duration: 750
@@ -110,7 +110,7 @@ const ProjectCards = () => {
   }
 
   let toRender;
-  if (destination != "") {
+  if (destination != '') {
     toRender = <Redirect to={destination} />;
   } else {
     toRender = (
@@ -118,11 +118,11 @@ const ProjectCards = () => {
         <div style={styles.pageContainer}>
           <div style={styles.contentsContainer}>
             <div>
-              <button onClick={() => handleClick("/")}>Back</button>
+              <button onClick={() => handleClick('/')}>Back</button>
             </div>
             {cardsRender}
             <div>
-              <button onClick={() => handleClick("/experience")}>Next</button>
+              <button onClick={() => handleClick('/experience')}>Next</button>
             </div>
           </div>
         </div>
