@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSwipeable, Swipeable } from "react-swipeable";
 
 const styles = {
   cardsContainer: {
@@ -33,8 +34,14 @@ const CardSlider = props => {
     }
   };
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleChange("add"),
+    onSwipedRight: () => handleChange("subtract"),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
   return (
-    <div style={styles.cardsContainer} className="cardsContainer">
+    <div {...handlers} style={styles.cardsContainer} className="cardsContainer">
       <button onClick={() => handleChange("subtract")}>{"<"}</button>
       {cards[cardState]}
       <button onClick={() => handleChange("add")}>{">"}</button>
