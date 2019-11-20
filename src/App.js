@@ -18,8 +18,8 @@ import CommercialApps from "./components/CommercialApps";
 const App = () => {
   return (
     <Router>
-      <Route exact path={WELCOME} component={Welcome} />
       <Switch>
+        <Route exact path={WELCOME} component={Welcome} />
         <Route exact path={PROJECTS} component={ProjectCards} />
         <Route exact path={COMMERCIALPROJECTS} component={CommercialApps} />
         <Route exact path={EXPERIENCE} component={Experience} />
