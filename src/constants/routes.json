@@ -1,6 +1,7 @@
 {
   "WELCOME": "/",
   "PROJECTS": "/projects",
+  "COMMERCIALPROJECTS": "/projects/commercial",
   "EXPERIENCE": "/experience",
   "CONTACT": "/contact"
 }

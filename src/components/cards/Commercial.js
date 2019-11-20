@@ -1,13 +1,19 @@
-import React from 'react';
-import FlipCard from './FlipCard';
+import React from "react";
+import FlipCard from "./FlipCard";
+
+const styles = {
+  svg: {
+    width: "100%",
+    height: "100%"
+  }
+};
 
 const Commercial = () => {
   return (
     <svg
+      style={styles.svg}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      // width="100%"
-      height="100%"
       viewBox="0 0 495 802"
     >
       <defs>
