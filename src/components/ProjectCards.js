@@ -5,6 +5,7 @@ import anime from "animejs";
 import { WELCOME, EXPERIENCE, COMMERCIALPROJECTS } from "../constants/routes";
 import Commercial from "./cards/Commercial";
 import FlipCard from "./cards/FlipCard";
+import CardSlider from "./cards/CardSlider";
 
 const styles = {
   pageContainer: {
@@ -30,12 +31,34 @@ const ProjectCards = () => {
   const [toRedirect, setRedirect] = useState({
     destination: ""
   });
-
   const { destination } = toRedirect;
+
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth
+  });
+  const { height, width } = dimensions;
+
+  const windowWidth = window.innerWidth;
 
   useEffect(() => {
     cardsAnimation(true);
   }, []);
+
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth
+      });
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return _ => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
 
   const cardsAnimation = open => {
     const animationDirection = open ? "normal" : "reverse";
@@ -55,6 +78,37 @@ const ProjectCards = () => {
     setRedirect({ destination: stateVal });
   };
 
+  const cards = (
+    <Fragment>
+      <FlipCard
+        className="projectCard"
+        cardBack={Commercial}
+        cardFront="Commercial"
+      />
+      <FlipCard
+        className="projectCard"
+        cardBack={Commercial}
+        cardFront="Personal"
+      />
+      <FlipCard
+        className="projectCard"
+        cardBack={Commercial}
+        cardFront="Acheivements"
+      />
+    </Fragment>
+  );
+
+  let cardsRender;
+  if (width > 750) {
+    cardsRender = (
+      <div style={styles.cardsContainer} className="cardsContainer">
+        {cards}
+      </div>
+    );
+  } else {
+    cardsRender = <CardSlider>{cards}</CardSlider>;
+  }
+
   let toRender;
   if (destination != "") {
     toRender = <Redirect to={destination} />;
@@ -66,13 +120,7 @@ const ProjectCards = () => {
             <div>
               <button onClick={() => handleClick("/")}>Back</button>
             </div>
-            <div style={styles.cardsContainer} className="cardsContainer">
-              <FlipCard className="projectCard" cardBack={Commercial} />
-
-              <FlipCard className="projectCard" cardBack={Commercial} />
-
-              <FlipCard className="projectCard" cardBack={Commercial} />
-            </div>
+            {cardsRender}
             <div>
               <button onClick={() => handleClick("/experience")}>Next</button>
             </div>

@@ -12,16 +12,19 @@ const styles = {
   }
 };
 
-const FlipCard = ({ cardBack: SVG, className: className }) => {
+const FlipCard = ({
+  cardFront: CardFront,
+  cardBack: CardBack,
+  className: className
+}) => {
   return (
     <div style={styles.card} className={`flipCard ${className}`}>
       <div className="flipCardInner">
         <div className="flipCardFront">
-          <SVG />
+          <CardBack />
         </div>
         <div className="flipCardBack">
-          <h1>Commercial Apps</h1>
-          <p>Built for companies - internal and external</p>
+          <h1>{CardFront}</h1>
         </div>
       </div>
     </div>
