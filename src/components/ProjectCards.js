@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import anime from 'animejs';
+import { useSwipeable } from 'react-swipeable';
 
 import { WELCOME, EXPERIENCE, COMMERCIALPROJECTS } from '../constants/routes';
 import CommercialBack from './cards/CommercialBack';
@@ -83,6 +84,13 @@ const ProjectCards = () => {
     setRedirect({ destination: stateVal });
   };
 
+  const handlers = useSwipeable({
+    onSwipedDown: () => handleClick('/'),
+    onSwipedUp: () => handleClick('/experience'),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
+
   const cards = (
     <Fragment>
       <FlipCard
@@ -120,16 +128,8 @@ const ProjectCards = () => {
   } else {
     toRender = (
       <Fragment>
-        <div style={styles.pageContainer}>
-          <div style={styles.contentsContainer}>
-            <div>
-              <button onClick={() => handleClick('/')}>Back</button>
-            </div>
-            {cardsRender}
-            <div>
-              <button onClick={() => handleClick('/experience')}>Next</button>
-            </div>
-          </div>
+        <div style={styles.pageContainer} {...handlers}>
+          <div style={styles.contentsContainer}>{cardsRender}</div>
         </div>
       </Fragment>
     );

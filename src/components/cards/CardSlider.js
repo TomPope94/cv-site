@@ -42,9 +42,7 @@ const CardSlider = props => {
   });
   return (
     <div {...handlers} style={styles.cardsContainer} className="cardsContainer">
-      <button onClick={() => handleChange('subtract')}>{'<'}</button>
       {cards[cardState]}
-      <button onClick={() => handleChange('add')}>{'>'}</button>
     </div>
   );
 };

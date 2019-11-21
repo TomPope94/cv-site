@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import anime from 'animejs';
+import { useSwipeable } from 'react-swipeable';
 
 import { PROJECTS, CONTACT } from '../constants/routes';
 import ExperienceSlider from './experiences/ExperienceSlider';
@@ -55,6 +56,13 @@ const Experience = () => {
     setRedirect({ destination: stateVal });
   };
 
+  const handlers = useSwipeable({
+    onSwipedDown: () => handleClick('/projects'),
+    onSwipedUp: () => handleClick('/contact'),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
+
   let toRender;
   if (destination !== '') {
     toRender = <Redirect to={destination} />;
@@ -62,20 +70,8 @@ const Experience = () => {
     toRender = (
       <Fragment>
         <div style={styles.animationContainer} className="animationContainer" />
-        <div style={styles.pageContainer}>
+        <div style={styles.pageContainer} {...handlers}>
           <ExperienceSlider />
-          {/* <button
-            style={styles.buttons}
-            onClick={() => handleClick('/projects')}
-          >
-            Back
-          </button>
-          <button
-            style={styles.buttons}
-            onClick={() => handleClick('/contact')}
-          >
-            Next
-          </button> */}
         </div>
       </Fragment>
     );
