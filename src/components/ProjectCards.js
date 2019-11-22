@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
 
-import { WELCOME, EXPERIENCE, COMMERCIALPROJECTS } from '../constants/routes';
+import { WELCOME, EXPERIENCE } from '../constants/routes';
 import CommercialBack from './cards/CommercialBack';
 import CommercialFront from './cards/CommercialFront';
 import PersonalBack from './cards/PersonalBack';
@@ -82,14 +82,15 @@ const ProjectCards = () => {
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
   const handleClick = async stateVal => {
+    const route = Object.values(stateVal)[0];
     cardsAnimation(false);
     await delay(1000);
-    setRedirect({ destination: stateVal });
+    setRedirect({ destination: route });
   };
 
   const handlers = useSwipeable({
-    onSwipedDown: () => handleClick('/'),
-    onSwipedUp: () => handleClick('/experience'),
+    onSwipedDown: () => handleClick({ WELCOME }),
+    onSwipedUp: () => handleClick({ EXPERIENCE }),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });

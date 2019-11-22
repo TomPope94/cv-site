@@ -51,14 +51,15 @@ const Experience = () => {
   };
 
   const handleClick = async stateVal => {
+    const route = Object.values(stateVal)[0];
     animateContainer(false);
     await delay(1000);
-    setRedirect({ destination: stateVal });
+    setRedirect({ destination: route });
   };
 
   const handlers = useSwipeable({
-    onSwipedDown: () => handleClick('/projects'),
-    onSwipedUp: () => handleClick('/contact'),
+    onSwipedDown: () => handleClick({ PROJECTS }),
+    onSwipedUp: () => handleClick({ CONTACT }),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
