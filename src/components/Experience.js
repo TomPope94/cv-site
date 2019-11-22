@@ -52,7 +52,9 @@ const Experience = () => {
     });
   };
 
-  const handleClick = async stateVal => {
+  const handleChange = async e => {
+    let stateVal = e.deltaY > 0 ? { CONTACT } : { PROJECTS };
+
     const route = Object.values(stateVal)[0];
     animateContainer(false);
     await delay(1000);
@@ -60,8 +62,8 @@ const Experience = () => {
   };
 
   const handlers = useSwipeable({
-    onSwipedDown: () => handleClick({ PROJECTS }),
-    onSwipedUp: () => handleClick({ CONTACT }),
+    onSwipedDown: e => handleChange(e),
+    onSwipedUp: e => handleChange(e),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
@@ -74,7 +76,11 @@ const Experience = () => {
     toRender = (
       <Fragment>
         <div style={styles.animationContainer} className="animationContainer" />
-        <div style={styles.pageContainer} {...handlers}>
+        <div
+          style={styles.pageContainer}
+          {...handlers}
+          onWheel={e => handleChange(e)}
+        >
           <ExperienceSlider />
         </div>
       </Fragment>

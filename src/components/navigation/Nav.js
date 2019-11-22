@@ -120,28 +120,28 @@ const Nav = () => {
           to={WELCOME}
           onClick={() => handleClick('close')}
         >
-          Who I Am
+          Who.
         </Link>
         <Link
           style={styles.navLinks}
           to={PROJECTS}
           onClick={() => handleClick('close')}
         >
-          What I've Done
+          What.
         </Link>
         <Link
           style={styles.navLinks}
           to={EXPERIENCE}
           onClick={() => handleClick('close')}
         >
-          Where I've Been
+          Where.
         </Link>
         <Link
           style={styles.navLinks}
           to={CONTACT}
           onClick={() => handleClick('close')}
         >
-          Get in Touch
+          Get in Touch...
         </Link>
       </div>
     </Fragment>

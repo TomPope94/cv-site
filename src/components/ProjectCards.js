@@ -19,9 +19,11 @@ const ProjectCards = () => {
   });
   const { destination } = toRedirect;
 
+  const [alreadyChanged, setChange] = useState(false);
+
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
-    titleFont: '3rem'
+    titleFont: window.innerWidth > 750 ? '3rem' : '10vw'
   });
   const { width, titleFont } = dimensions;
 
@@ -46,8 +48,14 @@ const ProjectCards = () => {
       height: '75vh'
     },
     titleText: {
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200',
       fontSize: titleFont,
       color: '#eceff4'
+    },
+    fullStop: {
+      color: '#D08770'
     }
   };
 
@@ -83,16 +91,20 @@ const ProjectCards = () => {
   };
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  const handleClick = async stateVal => {
-    const route = Object.values(stateVal)[0];
-    cardsAnimation(false);
-    await delay(1000);
-    setRedirect({ destination: route });
+  const handleChange = async e => {
+    if (!alreadyChanged) {
+      setChange(true);
+      let stateVal = e.deltaY > 0 ? { EXPERIENCE } : { WELCOME };
+      const route = Object.values(stateVal)[0];
+      cardsAnimation(false);
+      await delay(1000);
+      setRedirect({ destination: route });
+    }
   };
 
   const handlers = useSwipeable({
-    onSwipedDown: () => handleClick({ WELCOME }),
-    onSwipedUp: () => handleClick({ EXPERIENCE }),
+    onSwipedDown: e => handleChange(e),
+    onSwipedUp: e => handleChange(e),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
@@ -135,9 +147,16 @@ const ProjectCards = () => {
   } else {
     toRender = (
       <Fragment>
-        <div style={styles.pageContainer} {...handlers}>
+        <div
+          style={styles.pageContainer}
+          {...handlers}
+          onWheel={e => handleChange(e)}
+        >
           <div style={styles.contentsContainer}>
-            <h1 style={styles.titleText}>What I've Done</h1> {cardsRender}
+            <h1 style={styles.titleText}>
+              What I've Done<span style={styles.fullStop}>.</span>
+            </h1>{' '}
+            {cardsRender}
           </div>
         </div>
       </Fragment>
