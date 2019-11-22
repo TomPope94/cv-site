@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import anime from 'animejs';
 
@@ -40,6 +40,8 @@ function Welcome() {
     animateTransition(true);
   }, []);
 
+  let history = useHistory();
+
   const animateTransition = open => {
     const animationDirection = open ? 'reverse' : 'normal';
 
@@ -67,7 +69,8 @@ function Welcome() {
 
   let toRender;
   if (toRedirect) {
-    toRender = <Redirect to={PROJECTS} />;
+    history.push(PROJECTS);
+    toRender = null;
   } else {
     toRender = (
       <div style={styles.pageContainer}>

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
 
@@ -37,6 +37,8 @@ const Experience = () => {
   });
   const { destination } = toRedirect;
 
+  let history = useHistory();
+
   const delay = ms => new Promise(res => setTimeout(res, ms));
   const animateContainer = open => {
     const animationDirection = open ? 'normal' : 'reverse';
@@ -66,7 +68,8 @@ const Experience = () => {
 
   let toRender;
   if (destination !== '') {
-    toRender = <Redirect to={destination} />;
+    history.push(destination);
+    toRender = null;
   } else {
     toRender = (
       <Fragment>
