@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import anime from 'animejs';
+import { isMobile } from 'react-device-detect';
 
 import { PROJECTS } from '../constants/routes';
 
 let textInterval;
 
-function Welcome() {
+const Welcome = () => {
   const [toRedirect, setRedirect] = useState(false);
   const [alreadyChanged, setChange] = useState(false);
   const [dimensions, setDimensions] = useState({
-    width: window.innerWidth
+    width: window.innerWidth,
+    mobileDevice: isMobile
   });
-  const { width } = dimensions;
+  const { width, mobileDevice } = dimensions;
   const [descText, setDescText] = useState([]);
 
   useEffect(() => {
@@ -32,8 +34,9 @@ function Welcome() {
 
     return _ => {
       window.removeEventListener('resize', handleResize);
+      clearInterval(textInterval);
     };
-  });
+  }, setDescText);
 
   let history = useHistory();
 
@@ -46,6 +49,7 @@ function Welcome() {
     },
     halfScreen: {
       flexGrow: 1,
+      position: 'relative',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -60,6 +64,26 @@ function Welcome() {
       fontFamily: 'source-code-pro, monospace',
       fontStyle: 'normal',
       fontWeight: '200'
+    },
+    scrollHelper: {
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200',
+      color: '#2e3440',
+      display: mobileDevice ? 'none' : 'block'
+    },
+    swipeHelper: {
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200',
+      color: '#eceff4',
+      display: mobileDevice ? 'block' : 'none'
     }
   };
 
@@ -174,15 +198,18 @@ function Welcome() {
           className="splitLeft"
         >
           <h1 style={{ ...styles.title, color: '#eceff4' }}>Tom Pope</h1>
+          <p style={styles.swipeHelper}>Swipe down for more...</p>
         </div>
         <div style={{ ...styles.halfScreen, background: '#eceff4' }}>
           <h1 style={{ ...styles.title, color: '#2e3440' }}>{descText}</h1>
         </div>
+
+        <p style={styles.scrollHelper}>Scroll down for more...</p>
       </div>
     );
   }
 
   return toRender;
-}
+};
 
 export default Welcome;
