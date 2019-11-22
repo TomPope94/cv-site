@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import anime from 'animejs';
 
 import { WELCOME, PROJECTS, EXPERIENCE, CONTACT } from '../../constants/routes';
+import MenuIcon from './MenuIcon';
 
 const Nav = () => {
   const [formatState, setFormatState] = useState({
     navDisplay: 'none',
     navButtonDisplay: 'flex',
-    navCloseButtonDisplay: 'none'
+    navCloseButtonDisplay: 'none',
+    navClosed: true
   });
 
   const styles = {
@@ -20,7 +22,9 @@ const Nav = () => {
       left: -50,
       top: -50,
       position: 'absolute',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      zIndex: 2,
+      boxShadow: '0 2px 5px black'
     },
     nav: {
       position: 'absolute',
@@ -28,12 +32,14 @@ const Nav = () => {
       top: 0,
       height: '100vh',
       width: '100vw',
-      display: formatState.navDisplay,
+      display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-evenly',
       alignItems: 'center',
       background: '#eceff4',
-      zIndex: 1
+      zIndex: 1,
+      transform: 'scale(0)',
+      transformOrigin: 'top left'
     },
     navOpenButton: {
       position: 'absolute',
@@ -46,45 +52,95 @@ const Nav = () => {
       top: 0,
       left: 0,
       display: formatState.navCloseButtonDisplay
+    },
+    navLinks: {
+      display: formatState.navDisplay
     }
   };
 
-  const handleClick = direction => {
-    if (direction === 'open') {
+  const animateNav = direction => {
+    const animateDirection = direction === 'open' ? 'normal' : 'reverse';
+
+    anime
+      .timeline({
+        autoplay: true,
+        direction: animateDirection
+      })
+      .add({
+        targets: '#nav-animate',
+        scale: [0, 1.5],
+        // borderRadius: ['0 0 50%', '0 0 0 0'],
+        duration: 1000
+      })
+      .add(
+        {
+          targets: '#nav',
+          scale: [0, 1],
+          duration: 1000
+        },
+        0
+      );
+  };
+
+  const handleClick = navClosed => {
+    if (!navClosed) {
+      animateNav('open');
       setFormatState({
-        navDisplay: 'flex',
+        navDisplay: 'block',
         navOpenButtonDisplay: 'none',
-        navCloseButtonDisplay: 'flex'
+        navCloseButtonDisplay: 'flex',
+        navClosed: false
       });
     } else {
+      animateNav('close');
       setFormatState({
         navDisplay: 'none',
         navButtonDisplay: 'flex',
-        navCloseButtonDisplay: 'none'
+        navCloseButtonDisplay: 'none',
+        navClosed: true
       });
     }
   };
 
   return (
     <Fragment>
-      <div style={styles.navContainer} onClick={() => handleClick('open')} />
+      <div
+        style={styles.navContainer}
+        onClick={() => handleClick(!formatState.navClosed)}
+      >
+        <MenuIcon closed={formatState.navClosed} />
+      </div>
+      <div
+        style={{ ...styles.nav, borderRadius: '0 0 50%' }}
+        id="nav-animate"
+      />
       <div style={styles.nav} id="nav">
-        <button
-          style={styles.navCloseButton}
+        <Link
+          style={styles.navLinks}
+          to={WELCOME}
           onClick={() => handleClick('close')}
         >
-          Close
-        </button>
-        <Link to={WELCOME} onClick={() => handleClick('close')}>
           Who I Am
         </Link>
-        <Link to={PROJECTS} onClick={() => handleClick('close')}>
+        <Link
+          style={styles.navLinks}
+          to={PROJECTS}
+          onClick={() => handleClick('close')}
+        >
           What I've Done
         </Link>
-        <Link to={EXPERIENCE} onClick={() => handleClick('close')}>
+        <Link
+          style={styles.navLinks}
+          to={EXPERIENCE}
+          onClick={() => handleClick('close')}
+        >
           Where I've Been
         </Link>
-        <Link to={CONTACT} onClick={() => handleClick('close')}>
+        <Link
+          style={styles.navLinks}
+          to={CONTACT}
+          onClick={() => handleClick('close')}
+        >
           Get in Touch
         </Link>
       </div>
