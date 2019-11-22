@@ -13,11 +13,7 @@ const styles = {
   }
 };
 
-const FlipCard = ({
-  cardFront: CardFront,
-  cardBack: CardBack,
-  className: className
-}) => {
+const FlipCard = ({ CardFront, CardBack, className }) => {
   return (
     <div style={styles.card} className={`flipCard ${className}`}>
       <div className="flipCardInner">

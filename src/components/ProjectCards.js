@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
 
@@ -99,18 +99,18 @@ const ProjectCards = () => {
     <Fragment>
       <FlipCard
         className="projectCard"
-        cardBack={CommercialBack}
-        cardFront={CommercialFront}
+        CardBack={CommercialBack}
+        CardFront={CommercialFront}
       />
       <FlipCard
         className="projectCard"
-        cardBack={PersonalBack}
-        cardFront={PersonalFront}
+        CardBack={PersonalBack}
+        CardFront={PersonalFront}
       />
       <FlipCard
         className="projectCard"
-        cardBack={AchieveBack}
-        cardFront={AchieveFront}
+        CardBack={AchieveBack}
+        CardFront={AchieveFront}
       />
     </Fragment>
   );
@@ -127,7 +127,7 @@ const ProjectCards = () => {
   }
 
   let toRender;
-  if (destination != '') {
+  if (destination !== '') {
     toRender = <Redirect to={destination} />;
   } else {
     toRender = (
