@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
 
@@ -24,6 +24,8 @@ const ProjectCards = () => {
     titleFont: '3rem'
   });
   const { width, titleFont } = dimensions;
+
+  let history = useHistory();
 
   const styles = {
     pageContainer: {
@@ -128,7 +130,8 @@ const ProjectCards = () => {
 
   let toRender;
   if (destination !== '') {
-    toRender = <Redirect to={destination} />;
+    history.push(destination);
+    toRender = null;
   } else {
     toRender = (
       <Fragment>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import anime from 'animejs';
 
@@ -69,7 +69,7 @@ function Welcome() {
 
   let toRender;
   if (toRedirect) {
-    history.push('/projects');
+    history.push(PROJECTS);
     toRender = null;
   } else {
     toRender = (
