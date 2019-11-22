@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import history from './history';
 
 import {
   WELCOME,
@@ -7,17 +8,19 @@ import {
   COMMERCIALPROJECTS,
   EXPERIENCE,
   CONTACT
-} from "./constants/routes";
+} from './constants/routes';
 
-import Welcome from "./components/Welcome";
-import ProjectCards from "./components/ProjectCards";
-import Experience from "./components/Experience";
-import Contact from "./components/Contact";
-import CommercialApps from "./components/CommercialApps";
+import Nav from './components/navigation/Nav';
+import Welcome from './components/Welcome';
+import ProjectCards from './components/ProjectCards';
+import Experience from './components/Experience';
+import Contact from './components/Contact';
+import CommercialApps from './components/CommercialApps';
 
 const App = () => {
   return (
-    <Router>
+    <Router history={history}>
+      <Nav />
       <Switch>
         <Route exact path={WELCOME} component={Welcome} />
         <Route exact path={PROJECTS} component={ProjectCards} />
