@@ -14,11 +14,22 @@ const styles = {
   },
   splitLeft: {
     flexGrow: 1,
-    background: '#2e3440'
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: '#2e3440',
+    width: 0
   },
   splitRight: {
     flexGrow: 1,
-    background: '#eceff4'
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: '#eceff4',
+    width: 0
+  },
+  fullStop: {
+    color: '#D08770'
   }
 };
 
@@ -60,8 +71,14 @@ function Welcome() {
   } else {
     toRender = (
       <div style={styles.pageContainer}>
-        <div style={styles.splitLeft} {...handlers} className="splitLeft" />
-        <div style={styles.splitRight} />
+        <div style={styles.splitLeft} {...handlers} className="splitLeft">
+          <h1>Tom Pope</h1>
+        </div>
+        <div style={styles.splitRight}>
+          <h1>
+            Analyst<span style={styles.fullStop}>.</span>
+          </h1>
+        </div>
       </div>
     );
   }

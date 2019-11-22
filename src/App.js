@@ -10,6 +10,7 @@ import {
   CONTACT
 } from './constants/routes';
 
+import Nav from './components/navigation/Nav';
 import Welcome from './components/Welcome';
 import ProjectCards from './components/ProjectCards';
 import Experience from './components/Experience';
@@ -19,6 +20,7 @@ import CommercialApps from './components/CommercialApps';
 const App = () => {
   return (
     <Router history={history}>
+      <Nav />
       <Switch>
         <Route exact path={WELCOME} component={Welcome} />
         <Route exact path={PROJECTS} component={ProjectCards} />

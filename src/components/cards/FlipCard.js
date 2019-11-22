@@ -8,6 +8,7 @@ const styles = {
     borderRadius: 20,
     marginLeft: 25,
     marginRight: 25,
+    display: 'flex',
     height: '100%'
   }
 };

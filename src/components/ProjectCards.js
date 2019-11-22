@@ -13,26 +13,6 @@ import AchieveFront from './cards/AchieveFront';
 import FlipCard from './cards/FlipCard';
 import CardSlider from './cards/CardSlider';
 
-const styles = {
-  pageContainer: {
-    height: '100vh',
-    width: '100vw',
-    background: '#2e3440'
-  },
-  contentsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  cardsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-    height: '75vh'
-  }
-};
-
 const ProjectCards = () => {
   const [toRedirect, setRedirect] = useState({
     destination: ''
@@ -40,24 +20,47 @@ const ProjectCards = () => {
   const { destination } = toRedirect;
 
   const [dimensions, setDimensions] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth
+    width: window.innerWidth,
+    titleFont: '3rem'
   });
-  const { height, width } = dimensions;
+  const { width, titleFont } = dimensions;
 
-  const windowWidth = window.innerWidth;
+  const styles = {
+    pageContainer: {
+      height: '100vh',
+      width: '100vw',
+      background: 'linear-gradient(to top right, #2e3440, #4C566A)'
+    },
+    contentsContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    cardsContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      width: '100%',
+      height: '75vh'
+    },
+    titleText: {
+      fontSize: titleFont,
+      color: '#eceff4'
+    }
+  };
 
   useEffect(() => {
     cardsAnimation(true);
   }, []);
 
   useEffect(() => {
-    function handleResize() {
+    const handleResize = () => {
+      const fontSize = window.innerWidth > 750 ? '3rem' : '10vw';
       setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth
+        width: window.innerWidth,
+        titleFont: fontSize
       });
-    }
+    };
 
     window.addEventListener('resize', handleResize);
 
@@ -129,7 +132,9 @@ const ProjectCards = () => {
     toRender = (
       <Fragment>
         <div style={styles.pageContainer} {...handlers}>
-          <div style={styles.contentsContainer}>{cardsRender}</div>
+          <div style={styles.contentsContainer}>
+            <h1 style={styles.titleText}>What I've Done</h1> {cardsRender}
+          </div>
         </div>
       </Fragment>
     );
