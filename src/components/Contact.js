@@ -16,6 +16,7 @@ const Contact = () => {
   return (
     <div style={styles.pageContainer}>
       <Link to={EXPERIENCE}>Back</Link>
+      <h1>Contact Page</h1>
     </div>
   );
 };
