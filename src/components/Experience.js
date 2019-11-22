@@ -72,6 +72,7 @@ const Experience = () => {
       <Fragment>
         <div style={styles.animationContainer} className="animationContainer" />
         <div style={styles.pageContainer} {...handlers}>
+          <h1>My Experience.</h1>
           <ExperienceSlider />
         </div>
       </Fragment>
