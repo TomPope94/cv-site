@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import anime from 'animejs';
 import { isMobile } from 'react-device-detect';
+import uuid from 'uuid';
 
 import { PROJECTS } from '../constants/routes';
 
@@ -36,7 +37,7 @@ const Welcome = () => {
       window.removeEventListener('resize', handleResize);
       clearInterval(textInterval);
     };
-  }, setDescText);
+  }, [setDescText]);
 
   let history = useHistory();
 
@@ -73,7 +74,8 @@ const Welcome = () => {
       fontStyle: 'normal',
       fontWeight: '200',
       color: '#2e3440',
-      display: mobileDevice ? 'none' : 'block'
+      display: mobileDevice ? 'none' : 'block',
+      cursor: 'pointer'
     },
     swipeHelper: {
       position: 'absolute',
@@ -93,6 +95,7 @@ const Welcome = () => {
     for (let i = 0; i < text.length; i++) {
       spanArr.push(
         <span
+          key={uuid.v4()}
           style={{ display: 'inline-block', whiteSpace: 'pre' }}
           className="letter"
         >
@@ -102,6 +105,7 @@ const Welcome = () => {
     }
     spanArr.push(
       <span
+        key={uuid.v4()}
         style={{ ...styles.fullStop, display: 'inline-block' }}
         className="letter"
       >
@@ -204,7 +208,9 @@ const Welcome = () => {
           <h1 style={{ ...styles.title, color: '#2e3440' }}>{descText}</h1>
         </div>
 
-        <p style={styles.scrollHelper}>Scroll down for more...</p>
+        <p style={styles.scrollHelper} onClick={e => handleChange(e, 'change')}>
+          Scroll down for more...
+        </p>
       </div>
     );
   }
