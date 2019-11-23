@@ -96,7 +96,10 @@ const Welcome = () => {
       spanArr.push(
         <span
           key={uuid.v4()}
-          style={{ display: 'inline-block', whiteSpace: 'pre' }}
+          style={{
+            display: 'inline-block',
+            whiteSpace: 'pre'
+          }}
           className="letter"
         >
           {text[i]}

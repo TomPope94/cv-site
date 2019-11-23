@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
+import uuid from 'uuid';
 
 import { WELCOME, EXPERIENCE } from '../constants/routes';
 import CommercialBack from './cards/CommercialBack';
@@ -27,10 +28,13 @@ const ProjectCards = () => {
   });
   const { width, titleFont } = dimensions;
 
+  const [titleText, setTitleText] = useState([]);
+
   let history = useHistory();
 
   const styles = {
     pageContainer: {
+      position: 'relative',
       height: '100vh',
       width: '100vw',
       background: 'linear-gradient(to top right, #2e3440, #4C566A)'
@@ -56,11 +60,23 @@ const ProjectCards = () => {
     },
     fullStop: {
       color: '#D08770'
+    },
+    scrollHelper: {
+      position: 'absolute',
+      right: 0,
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200',
+      color: '#eceff4',
+      display: 'block',
+      cursor: 'pointer',
+      marginRight: 10
     }
   };
 
   useEffect(() => {
     cardsAnimation(true);
+    titleAnimation();
   }, []);
 
   useEffect(() => {
@@ -78,6 +94,49 @@ const ProjectCards = () => {
       window.removeEventListener('resize', handleResize);
     };
   });
+
+  const splitToSpans = text => {
+    let spanArr = [];
+
+    for (let i = 0; i < text.length; i++) {
+      spanArr.push(
+        <span
+          key={uuid.v4()}
+          style={{
+            display: 'inline-block',
+            whiteSpace: 'pre',
+            color: '#eceff4'
+          }}
+          className="letter"
+        >
+          {text[i]}
+        </span>
+      );
+    }
+    spanArr.push(
+      <span
+        key={uuid.v4()}
+        style={{ ...styles.fullStop, display: 'inline-block' }}
+        className="letter"
+      >
+        .
+      </span>
+    );
+    return spanArr;
+  };
+  // let textInterval;
+  // let count = 0;
+  const titleAnimation = async () => {
+    const title = "What I've Done";
+    const spans = splitToSpans(title);
+    await setTitleText(spans);
+
+    anime({
+      targets: '.letter',
+      rotateY: [-90, 0],
+      delay: anime.stagger(100)
+    });
+  };
 
   const cardsAnimation = open => {
     const animationDirection = open ? 'normal' : 'reverse';
@@ -152,12 +211,18 @@ const ProjectCards = () => {
           {...handlers}
           onWheel={e => handleChange(e)}
         >
+          <p style={{ ...styles.scrollHelper, top: 0 }}>
+            ...Scroll up to go back
+          </p>
           <div style={styles.contentsContainer}>
-            <h1 style={styles.titleText}>
-              What I've Done<span style={styles.fullStop}>.</span>
-            </h1>{' '}
+            <h1 style={{ ...styles.titleText, color: '#2e3440' }}>
+              {titleText}
+            </h1>
             {cardsRender}
           </div>
+          <p style={{ ...styles.scrollHelper, bottom: 0 }}>
+            Scroll down for even more...
+          </p>
         </div>
       </Fragment>
     );
