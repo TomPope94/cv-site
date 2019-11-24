@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
 import uuid from 'uuid';
+import { isMobile } from 'react-device-detect';
 
 import { WELCOME, EXPERIENCE } from '../constants/routes';
 import CommercialBack from './cards/CommercialBack';
@@ -34,7 +35,7 @@ const ProjectCards = () => {
 
   const styles = {
     pageContainer: {
-      position: 'relative',
+      position: 'fixed',
       height: '100vh',
       width: '100vw',
       background: 'linear-gradient(to top right, #2e3440, #4C566A)'
@@ -56,7 +57,9 @@ const ProjectCards = () => {
       fontStyle: 'normal',
       fontWeight: '200',
       fontSize: titleFont,
-      color: '#eceff4'
+      color: '#eceff4',
+      marginTop: 50,
+      marginBottom: 10
     },
     fullStop: {
       color: '#D08770'
@@ -71,6 +74,14 @@ const ProjectCards = () => {
       display: 'block',
       cursor: 'pointer',
       marginRight: 10
+    },
+    button: {
+      border: 'none',
+      background: 'none',
+      cursor: 'pointer',
+      height: '100%',
+      width: '100%',
+      outline: 'none'
     }
   };
 
@@ -140,7 +151,6 @@ const ProjectCards = () => {
 
   const cardsAnimation = open => {
     const animationDirection = open ? 'normal' : 'reverse';
-
     anime({
       targets: '.projectCard',
       scaleY: [0, 1],
@@ -170,21 +180,27 @@ const ProjectCards = () => {
 
   const cards = (
     <Fragment>
-      <FlipCard
-        className="projectCard"
-        CardBack={CommercialBack}
-        CardFront={CommercialFront}
-      />
-      <FlipCard
-        className="projectCard"
-        CardBack={PersonalBack}
-        CardFront={PersonalFront}
-      />
-      <FlipCard
-        className="projectCard"
-        CardBack={AchieveBack}
-        CardFront={AchieveFront}
-      />
+      <button style={styles.button}>
+        <FlipCard
+          cardName="commercial"
+          CardBack={CommercialBack}
+          CardFront={CommercialFront}
+        />
+      </button>
+      <button style={styles.button}>
+        <FlipCard
+          cardName="personal"
+          CardBack={PersonalBack}
+          CardFront={PersonalFront}
+        />
+      </button>
+      <button style={styles.button}>
+        <FlipCard
+          cardName="achieve"
+          CardBack={AchieveBack}
+          CardFront={AchieveFront}
+        />
+      </button>
     </Fragment>
   );
 
@@ -196,7 +212,7 @@ const ProjectCards = () => {
       </div>
     );
   } else {
-    cardsRender = <CardSlider>{cards}</CardSlider>;
+    cardsRender = <CardSlider cardComponents={cards} />;
   }
 
   let toRender;
@@ -212,7 +228,7 @@ const ProjectCards = () => {
           onWheel={e => handleChange(e)}
         >
           <p style={{ ...styles.scrollHelper, top: 0 }}>
-            ...Scroll up to go back
+            {!isMobile ? '...Scroll up to go back' : '...Swipe down'}
           </p>
           <div style={styles.contentsContainer}>
             <h1 style={{ ...styles.titleText, color: '#2e3440' }}>
@@ -221,7 +237,7 @@ const ProjectCards = () => {
             {cardsRender}
           </div>
           <p style={{ ...styles.scrollHelper, bottom: 0 }}>
-            Scroll down for even more...
+            {!isMobile ? 'Scroll down for even more...' : null}
           </p>
         </div>
       </Fragment>

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import anime from 'animejs';
+import { isMobile } from 'react-device-detect';
 
 import { WELCOME, PROJECTS, EXPERIENCE, CONTACT } from '../../constants/routes';
 import MenuIcon from './MenuIcon';
@@ -39,7 +40,10 @@ const Nav = () => {
       background: '#eceff4',
       zIndex: 1,
       transform: 'scale(0)',
-      transformOrigin: 'top left'
+      transformOrigin: 'top left',
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200'
     },
     navOpenButton: {
       position: 'absolute',
@@ -54,7 +58,10 @@ const Nav = () => {
       display: formatState.navCloseButtonDisplay
     },
     navLinks: {
-      display: formatState.navDisplay
+      display: formatState.navDisplay,
+      textDecoration: 'none',
+      color: '#2e3440',
+      fontSize: !isMobile ? '3rem' : '10vw'
     }
   };
 
@@ -120,28 +127,28 @@ const Nav = () => {
           to={WELCOME}
           onClick={() => handleClick('close')}
         >
-          Who.
+          Who
         </Link>
         <Link
           style={styles.navLinks}
           to={PROJECTS}
           onClick={() => handleClick('close')}
         >
-          What.
+          What
         </Link>
         <Link
           style={styles.navLinks}
           to={EXPERIENCE}
           onClick={() => handleClick('close')}
         >
-          Where.
+          Where
         </Link>
         <Link
           style={styles.navLinks}
           to={CONTACT}
           onClick={() => handleClick('close')}
         >
-          Get in Touch...
+          Get in Touch
         </Link>
       </div>
     </Fragment>
