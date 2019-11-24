@@ -35,7 +35,6 @@ const styles = {
     flexDirection: 'column',
     width: '33%'
   },
-
   companyTitleContainer: {
     background: '#4C566A',
     paddingRight: 25,

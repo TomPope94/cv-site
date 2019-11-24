@@ -2,9 +2,11 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
+import { isMobile } from 'react-device-detect';
 
 import { PROJECTS, CONTACT } from '../constants/routes';
 import ExperienceSlider from './experiences/ExperienceSlider';
+import MobileExperienceSlider from './experiences/MobileExperienceSlider';
 
 const styles = {
   pageContainer: {
@@ -85,7 +87,7 @@ const Experience = () => {
           {...handlers}
           onWheel={e => handleChange(e)}
         >
-          <ExperienceSlider />
+          {!isMobile ? <ExperienceSlider /> : <MobileExperienceSlider />}
         </div>
       </Fragment>
     );
