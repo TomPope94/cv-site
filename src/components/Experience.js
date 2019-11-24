@@ -20,7 +20,8 @@ const styles = {
     background: '#2e3440',
     top: 0,
     position: 'absolute',
-    transformOrigin: 'top'
+    transformOrigin: 'top',
+    zIndex: 10
   },
   buttons: {
     height: 30
@@ -31,7 +32,7 @@ const Experience = () => {
   useEffect(() => {
     animateContainer(true);
   }, []);
-
+  const [alreadyChanged, setChange] = useState(false);
   const [toRedirect, setRedirect] = useState({
     destination: ''
   });
@@ -53,12 +54,15 @@ const Experience = () => {
   };
 
   const handleChange = async e => {
-    let stateVal = e.deltaY > 0 ? { CONTACT } : { PROJECTS };
+    if (!alreadyChanged) {
+      setChange(true);
+      let stateVal = e.deltaY > 0 ? { CONTACT } : { PROJECTS };
 
-    const route = Object.values(stateVal)[0];
-    animateContainer(false);
-    await delay(1000);
-    setRedirect({ destination: route });
+      const route = Object.values(stateVal)[0];
+      animateContainer(false);
+      await delay(1000);
+      setRedirect({ destination: route });
+    }
   };
 
   const handlers = useSwipeable({

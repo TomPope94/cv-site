@@ -135,8 +135,7 @@ const ProjectCards = () => {
     );
     return spanArr;
   };
-  // let textInterval;
-  // let count = 0;
+
   const titleAnimation = async () => {
     const title = "What I've Done";
     const spans = splitToSpans(title);
