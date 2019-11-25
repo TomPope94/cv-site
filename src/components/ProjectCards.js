@@ -2,6 +2,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import anime from 'animejs';
 import { useSwipeable } from 'react-swipeable';
+import uuid from 'uuid';
+import { isMobile } from 'react-device-detect';
 
 import { WELCOME, EXPERIENCE } from '../constants/routes';
 import CommercialBack from './cards/CommercialBack';
@@ -19,16 +21,21 @@ const ProjectCards = () => {
   });
   const { destination } = toRedirect;
 
+  const [alreadyChanged, setChange] = useState(false);
+
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
-    titleFont: '3rem'
+    titleFont: window.innerWidth > 750 ? '3rem' : '10vw'
   });
   const { width, titleFont } = dimensions;
+
+  const [titleText, setTitleText] = useState([]);
 
   let history = useHistory();
 
   const styles = {
     pageContainer: {
+      position: 'fixed',
       height: '100vh',
       width: '100vw',
       background: 'linear-gradient(to top right, #2e3440, #4C566A)'
@@ -46,13 +53,41 @@ const ProjectCards = () => {
       height: '75vh'
     },
     titleText: {
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200',
       fontSize: titleFont,
-      color: '#eceff4'
+      color: '#eceff4',
+      marginTop: 50,
+      marginBottom: 10
+    },
+    fullStop: {
+      color: '#D08770'
+    },
+    scrollHelper: {
+      position: 'absolute',
+      right: 0,
+      fontFamily: 'source-code-pro, monospace',
+      fontStyle: 'normal',
+      fontWeight: '200',
+      color: '#eceff4',
+      display: 'block',
+      cursor: 'pointer',
+      marginRight: 10
+    },
+    button: {
+      border: 'none',
+      background: 'none',
+      cursor: 'pointer',
+      height: '100%',
+      width: '100%',
+      outline: 'none'
     }
   };
 
   useEffect(() => {
     cardsAnimation(true);
+    titleAnimation();
   }, []);
 
   useEffect(() => {
@@ -71,9 +106,50 @@ const ProjectCards = () => {
     };
   });
 
+  const splitToSpans = text => {
+    let spanArr = [];
+
+    for (let i = 0; i < text.length; i++) {
+      spanArr.push(
+        <span
+          key={uuid.v4()}
+          style={{
+            display: 'inline-block',
+            whiteSpace: 'pre',
+            color: '#eceff4'
+          }}
+          className="letter"
+        >
+          {text[i]}
+        </span>
+      );
+    }
+    spanArr.push(
+      <span
+        key={uuid.v4()}
+        style={{ ...styles.fullStop, display: 'inline-block' }}
+        className="letter"
+      >
+        .
+      </span>
+    );
+    return spanArr;
+  };
+
+  const titleAnimation = async () => {
+    const title = "What I've Done";
+    const spans = splitToSpans(title);
+    await setTitleText(spans);
+
+    anime({
+      targets: '.letter',
+      rotateY: [-90, 0],
+      delay: anime.stagger(100)
+    });
+  };
+
   const cardsAnimation = open => {
     const animationDirection = open ? 'normal' : 'reverse';
-
     anime({
       targets: '.projectCard',
       scaleY: [0, 1],
@@ -83,37 +159,47 @@ const ProjectCards = () => {
   };
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  const handleClick = async stateVal => {
-    const route = Object.values(stateVal)[0];
-    cardsAnimation(false);
-    await delay(1000);
-    setRedirect({ destination: route });
+  const handleChange = async e => {
+    if (!alreadyChanged) {
+      setChange(true);
+      let stateVal = e.deltaY > 0 ? { EXPERIENCE } : { WELCOME };
+      const route = Object.values(stateVal)[0];
+      cardsAnimation(false);
+      await delay(1000);
+      setRedirect({ destination: route });
+    }
   };
 
   const handlers = useSwipeable({
-    onSwipedDown: () => handleClick({ WELCOME }),
-    onSwipedUp: () => handleClick({ EXPERIENCE }),
+    onSwipedDown: e => handleChange(e),
+    onSwipedUp: e => handleChange(e),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
 
   const cards = (
     <Fragment>
-      <FlipCard
-        className="projectCard"
-        CardBack={CommercialBack}
-        CardFront={CommercialFront}
-      />
-      <FlipCard
-        className="projectCard"
-        CardBack={PersonalBack}
-        CardFront={PersonalFront}
-      />
-      <FlipCard
-        className="projectCard"
-        CardBack={AchieveBack}
-        CardFront={AchieveFront}
-      />
+      <button style={styles.button}>
+        <FlipCard
+          cardName="commercial"
+          CardBack={CommercialBack}
+          CardFront={CommercialFront}
+        />
+      </button>
+      <button style={styles.button}>
+        <FlipCard
+          cardName="personal"
+          CardBack={PersonalBack}
+          CardFront={PersonalFront}
+        />
+      </button>
+      <button style={styles.button}>
+        <FlipCard
+          cardName="achieve"
+          CardBack={AchieveBack}
+          CardFront={AchieveFront}
+        />
+      </button>
     </Fragment>
   );
 
@@ -125,7 +211,7 @@ const ProjectCards = () => {
       </div>
     );
   } else {
-    cardsRender = <CardSlider>{cards}</CardSlider>;
+    cardsRender = <CardSlider cardComponents={cards} />;
   }
 
   let toRender;
@@ -135,10 +221,23 @@ const ProjectCards = () => {
   } else {
     toRender = (
       <Fragment>
-        <div style={styles.pageContainer} {...handlers}>
+        <div
+          style={styles.pageContainer}
+          {...handlers}
+          onWheel={e => handleChange(e)}
+        >
+          <p style={{ ...styles.scrollHelper, top: 0 }}>
+            {!isMobile ? '...Scroll up to go back' : '...Swipe down'}
+          </p>
           <div style={styles.contentsContainer}>
-            <h1 style={styles.titleText}>What I've Done</h1> {cardsRender}
+            <h1 style={{ ...styles.titleText, color: '#2e3440' }}>
+              {titleText}
+            </h1>
+            {cardsRender}
           </div>
+          <p style={{ ...styles.scrollHelper, bottom: 0 }}>
+            {!isMobile ? 'Scroll down for even more...' : null}
+          </p>
         </div>
       </Fragment>
     );
